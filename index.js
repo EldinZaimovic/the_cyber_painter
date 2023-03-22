@@ -33,25 +33,25 @@ const postToInsta = async () => {
         api_secret: process.env.CLOUD_API_SECRET
       });
 
-    const completion = await openai.createCompletion({
-        model: "text-davinci-003",
+    const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
         max_tokens: 50,
-        prompt: "Write prompt for AI image generator",
+        messages: [{role: 'user', content: "Write prompt for AI image generator to generate digital art image"}],
     });
 
-    const completion2 = await openai.createCompletion({
-        model: "text-davinci-003",
+    const completion2 = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
         max_tokens: 50,
         top_p: 1.0,
         temperature: 0,
         frequency_penalty: 0.0,
         presence_penalty: 0.0,
         stop: ["\"\"\""],
-        prompt: `Write me 20 instagram hashtags for this sentence ${completion.data.choices[0].text}.`,
+        messages: [{role: 'user', content: `Write me popular instagram hashtags for this sentence ${completion.data.choices[0].message.content}.`}],
     });
 
-    const caption = completion.data.choices[0].text;
-    const hashtags = completion2.data.choices[0].text;
+    const caption = completion.data.choices[0].message.content;
+    const hashtags = completion2.data.choices[0].message.content;
 
     const image = await openai.createImage ({
         prompt: `${caption}`,
