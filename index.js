@@ -35,8 +35,13 @@ const postToInsta = async () => {
 
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
-        max_tokens: 50,
-        messages: [{role: 'user', content: "Write prompt for AI image generator to generate digital art image"}],
+        max_tokens: 100,
+        messages: [
+          {
+            role: 'user', 
+            content: "Write prompt for AI image generator"
+          }
+        ],
     });
 
     const completion2 = await openai.createChatCompletion({
@@ -54,7 +59,7 @@ const postToInsta = async () => {
     const hashtags = completion2.data.choices[0].message.content;
 
     const image = await openai.createImage ({
-        prompt: `${caption}`,
+        prompt: `${caption} --ar 3:4 --iw 9 --q 2 --s 1250`,
         n: 1,
         size: "512x512"
     })
@@ -88,7 +93,7 @@ const postToInsta = async () => {
 
     await ig.publish.photo({
         file: imageFile,
-        caption: `${caption} ${hashtags}`,
+        caption: `${caption}${hashtags}`,
     });
     console.log("Image posted");
 
