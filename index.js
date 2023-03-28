@@ -9,16 +9,10 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-
 app.get('/the-cyber-painter', (req, res) => {
   console.log('Server was pinged');
   res.send('I am The Cyber Painter');
 })
-
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`)
-})
-
 
 const postToInsta = async () => {
 
@@ -34,7 +28,7 @@ const postToInsta = async () => {
       });
 
     const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         max_tokens: 100,
         messages: [
           {
@@ -45,7 +39,7 @@ const postToInsta = async () => {
     });
 
     const completion2 = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         max_tokens: 50,
         top_p: 1.0,
         temperature: 0,
@@ -104,5 +98,6 @@ const postToInsta = async () => {
 const cronInsta = new CronJob("0 20 * * *", async () => {
   postToInsta();
 });
+
 
 cronInsta.start();
