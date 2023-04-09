@@ -53,7 +53,7 @@ const postToInsta = async () => {
     const hashtags = completion2.data.choices[0].message.content;
 
     const image = await openai.createImage ({
-        prompt: `${caption} --ar 3:4 --iw 9 --q 2 --s 1250`,
+        prompt: `${caption} hyper-realistic, ultra resolution, detailed --ar 4:5`,
         n: 1,
         size: "512x512"
     })
